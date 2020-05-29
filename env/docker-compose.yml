@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+    app:
+        build:
+            context: ../
+            dockerfile: Dockerfile
+        volumes:
+            - ..:/app
+        ports:
+            - 80:80
+        environment:
+            DATABASE_URL: "mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@db:3306/${DATABASE_NAME}"
+            TIME_ZONE: "Europe/Warsaw"
+
+    db:
+        image: 'mysql:5.7'
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
