@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Booking\Service;
 
 use App\Booking\Entity\Booking;
-use App\Booking\Entity\Client;
-use App\Room\Entity\Room;
+use App\Booking\Exception\BookingException;
+use App\Room\Repository\RoomRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -14,34 +14,33 @@ class Booker
 {
     private EntityManagerInterface $entityManager;
     private float $bookingTax;
+    private RoomRepository $roomRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, float $bookingTax)
+    public function __construct(EntityManagerInterface $entityManager, float $bookingTax, RoomRepository $roomRepository)
     {
         $this->entityManager = $entityManager;
         $this->bookingTax = $bookingTax;
+        $this->roomRepository = $roomRepository;
     }
 
-    public function book(Room $room, Client $client, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
+    public function book(int $roomId, int $clientId, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
     {
         $startDate = $startDate->setTime(0, 0, 0);
         $endDate = $endDate->setTime(0, 0, 0);
-        $datesDiffInterval = $endDate->diff($startDate);
-        $daysDiff = $datesDiffInterval->d;
 
-        $bookingNetPrice = $daysDiff * $room->getPrice();
-        $bookingGrossPrice = (int)round($bookingNetPrice * (1+$this->bookingTax));
+        $room = $this->roomRepository->find($roomId);
 
+        if (!$room) {
+            throw new BookingException('Room not found');
+        }
 
         $booking = new Booking();
         $booking->setBookingDate(new DateTimeImmutable());
         $booking->setStartDate($startDate);
         $booking->setEndDate($endDate);
-        $booking->setClient($client);
-        $booking->setRoom($room);
-        $booking->setPrice($room->getPrice());
-        $booking->setQuantity($daysDiff);
-        $booking->setTaxPercentage($this->bookingTax);
-        $booking->setTotal($bookingGrossPrice);
+        $booking->setClientId($clientId);
+        $booking->setRoomId($roomId);
+        $booking->setUnitPrice($room->getPrice());
 
         $this->entityManager->persist($booking);
 

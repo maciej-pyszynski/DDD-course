@@ -3,7 +3,6 @@
 namespace App\Booking\Entity;
 
 use App\Booking\Repository\BookingRepository;
-use App\Room\Entity\Room;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,53 +42,23 @@ class Booking
     /**
      * @var float
      *
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\Column(name="unit_price", type="integer")
      */
-    private $price;
+    private $unitPrice;
 
     /**
-     * @var integer
+     * @var int|null
      *
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(name="client_id", type="integer")
      */
-    private $quantity;
+    private $clientId;
 
     /**
-     * @var DateTimeImmutable|null
+     * @var null|int
      *
-     * @ORM\Column(name="invoice_issue_date", type="datetime_immutable", nullable=true)
+     * @ORM\Column(name="room_id", type="integer")
      */
-    private $invoiceIssueDate;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="tax_percentage", type="float")
-     */
-    private $taxPercentage;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="total", type="integer")
-     */
-    private $total;
-
-    /**
-     * @var Client|null
-     *
-     * @ORM\ManyToOne(targetEntity="\App\Booking\Entity\Client")
-     * @ORM\JoinColumn(name="client_id", nullable=false)
-     */
-    private $client;
-
-    /**
-     * @var null|Room
-     *
-     * @ORM\ManyToOne(targetEntity="\App\Room\Entity\Room")
-     * @ORM\JoinColumn(name="room_id", nullable=false)
-     */
-    private $room;
+    private $roomId;
 
     public function getId(): ?int
     {
@@ -147,17 +116,17 @@ class Booking
     /**
      * @return float
      */
-    public function getPrice(): float
+    public function getUnitPrice(): float
     {
-        return $this->price;
+        return $this->unitPrice;
     }
 
     /**
-     * @param float $price
+     * @param float $unitPrice
      */
-    public function setPrice(float $price): void
+    public function setUnitPrice(float $unitPrice): void
     {
-        $this->price = $price;
+        $this->unitPrice = $unitPrice;
     }
 
     /**
@@ -209,35 +178,35 @@ class Booking
     }
 
     /**
-     * @return Client|null
+     * @return int|null
      */
-    public function getClient(): ?Client
+    public function getClientId(): ?int
     {
-        return $this->client;
+        return $this->clientId;
     }
 
     /**
-     * @param Client $client
+     * @param int $clientId
      */
-    public function setClient(Client $client): void
+    public function setClientId(int $clientId): void
     {
-        $this->client = $client;
+        $this->clientId = $clientId;
     }
 
     /**
-     * @return ?Room
+     * @return ?int
      */
-    public function getRoom(): ?Room
+    public function getRoomId(): ?int
     {
-        return $this->room;
+        return $this->roomId;
     }
 
     /**
-     * @param Room $room
+     * @param int $roomId
      */
-    public function setRoom(Room $room): void
+    public function setRoomId(int $roomId): void
     {
-        $this->room = $room;
+        $this->roomId = $roomId;
     }
 
     /**

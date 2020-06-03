@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Booking\Entity;
+namespace App\Client\Entity;
 
-use App\Booking\Repository\ClientRepository;
+use App\Client\Repository\ClientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @ORM\Table(name="client_client")
  */
 class Client
 {

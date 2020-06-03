@@ -22,9 +22,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Booking/Entity'
                 prefix: 'App\Booking\Entity'
                 alias: App\Booking
+            AppClient:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Client/Entity'
+                prefix: 'App\Client\Entity'
+                alias: App\Client
             AppRoom:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Room/Entity'
                 prefix: 'App\Room\Entity'
                 alias: App\Room
+            AppInvoice:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Invoice/Entity'
+                prefix: 'App\Invoice\Entity'
+                alias: App\Invoice

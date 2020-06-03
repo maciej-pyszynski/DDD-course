@@ -8,3 +8,4 @@ services:
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
             - '%bookingTax%'
+            - '@App\Room\Repository\RoomRepository'
