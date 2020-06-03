@@ -4,40 +4,39 @@ declare(strict_types=1);
 
 namespace App\Booking\Controller\DTO;
 
-use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BookingDTO
 {
     /**
-     * @NotBlank()
+     * @Assert\NotBlank()
      */
     private int $roomId;
 
     /**
-     * @NotBlank()
+     * @Assert\NotBlank()
      */
     private int $clientId;
 
     /**
-     * @NotBlank()
+     * @Assert\NotBlank()
      */
-    private DateTime $startDate;
+    private DateTimeImmutable $startDate;
 
     /**
-     * @NotBlank()
+     * @Assert\NotBlank()
      */
-    private DateTime $endDate;
+    private DateTimeImmutable $endDate;
 
     /**
      * BookingDTO constructor.
      * @param int $roomId
      * @param int $clientId
-     * @param DateTime $startDate
-     * @param DateTime $endDate
+     * @param DateTimeImmutable $startDate
+     * @param DateTimeImmutable $endDate
      */
-    public function __construct(int $roomId, int $clientId, DateTime $startDate, DateTime $endDate)
+    public function __construct(int $roomId, int $clientId, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
     {
         $this->roomId = $roomId;
         $this->clientId = $clientId;
@@ -62,17 +61,17 @@ class BookingDTO
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getStartDate(): DateTime
+    public function getStartDate(): DateTimeImmutable
     {
         return $this->startDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getEndDate(): DateTime
+    public function getEndDate(): DateTimeImmutable
     {
         return $this->endDate;
     }

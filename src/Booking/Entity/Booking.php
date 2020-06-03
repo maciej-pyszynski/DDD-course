@@ -4,7 +4,7 @@ namespace App\Booking\Entity;
 
 use App\Booking\Repository\BookingRepository;
 use App\Room\Entity\Room;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,21 +20,21 @@ class Booking
     private $id;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="booking_date", type="datetime_immutable")
      */
     private $bookingDate;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="start_date", type="datetime_immutable")
      */
     private $startDate;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="end_date", type="datetime_immutable")
      */
@@ -55,7 +55,7 @@ class Booking
     private $quantity;
 
     /**
-     * @var DateTime|null
+     * @var DateTimeImmutable|null
      *
      * @ORM\Column(name="invoice_issue_date", type="datetime_immutable", nullable=true)
      */
@@ -97,49 +97,49 @@ class Booking
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getBookingDate(): DateTime
+    public function getBookingDate(): DateTimeImmutable
     {
         return $this->bookingDate;
     }
 
     /**
-     * @param DateTime $bookingDate
+     * @param DateTimeImmutable $bookingDate
      */
-    public function setBookingDate(DateTime $bookingDate): void
+    public function setBookingDate(DateTimeImmutable $bookingDate): void
     {
         $this->bookingDate = $bookingDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getStartDate(): DateTime
+    public function getStartDate(): DateTimeImmutable
     {
         return $this->startDate;
     }
 
     /**
-     * @param DateTime $startDate
+     * @param DateTimeImmutable $startDate
      */
-    public function setStartDate(DateTime $startDate): void
+    public function setStartDate(DateTimeImmutable $startDate): void
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getEndDate(): DateTime
+    public function getEndDate(): DateTimeImmutable
     {
         return $this->endDate;
     }
 
     /**
-     * @param DateTime $endDate
+     * @param DateTimeImmutable $endDate
      */
-    public function setEndDate(DateTime $endDate): void
+    public function setEndDate(DateTimeImmutable $endDate): void
     {
         $this->endDate = $endDate;
     }
@@ -241,17 +241,17 @@ class Booking
     }
 
     /**
-     * @return DateTime|null
+     * @return DateTimeImmutable|null
      */
-    public function getInvoiceIssueDate(): ?DateTime
+    public function getInvoiceIssueDate(): ?DateTimeImmutable
     {
         return $this->invoiceIssueDate;
     }
 
     /**
-     * @param DateTime|null $invoiceIssueDate
+     * @param DateTimeImmutable|null $invoiceIssueDate
      */
-    public function setInvoiceIssueDate(?DateTime $invoiceIssueDate): void
+    public function setInvoiceIssueDate(?DateTimeImmutable $invoiceIssueDate): void
     {
         $this->invoiceIssueDate = $invoiceIssueDate;
     }
