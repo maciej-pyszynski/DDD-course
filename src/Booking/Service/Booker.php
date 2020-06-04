@@ -5,34 +5,38 @@ declare(strict_types=1);
 namespace App\Booking\Service;
 
 use App\Booking\Entity\Booking;
-use App\Booking\Exception\BookingException;
-use App\Room\Repository\RoomRepository;
+use App\Room\Api\Exception\RoomNotFoundException;
+use App\Room\Api\Query\DTO\RoomPriceDTO;
+use App\Room\Api\Query\RoomPriceQuery;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\Messenger\HandleTrait;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class Booker
 {
+    use HandleTrait;
+
     private EntityManagerInterface $entityManager;
     private float $bookingTax;
-    private RoomRepository $roomRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, float $bookingTax, RoomRepository $roomRepository)
+    public function __construct(EntityManagerInterface $entityManager, float $bookingTax, MessageBusInterface $messageBus)
     {
         $this->entityManager = $entityManager;
         $this->bookingTax = $bookingTax;
-        $this->roomRepository = $roomRepository;
+        $this->messageBus = $messageBus;
     }
 
+    /**
+     * @throws RoomNotFoundException
+     */
     public function book(int $roomId, int $clientId, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
     {
         $startDate = $startDate->setTime(0, 0, 0);
         $endDate = $endDate->setTime(0, 0, 0);
 
-        $room = $this->roomRepository->find($roomId);
-
-        if (!$room) {
-            throw new BookingException('Room not found');
-        }
+        $roomPriceDTO = $this->getRoomPrice($roomId);
 
         $booking = new Booking();
         $booking->setBookingDate(new DateTimeImmutable());
@@ -40,10 +44,24 @@ class Booker
         $booking->setEndDate($endDate);
         $booking->setClientId($clientId);
         $booking->setRoomId($roomId);
-        $booking->setUnitPrice($room->getPrice());
+        $booking->setUnitPrice($roomPriceDTO->getPrice());
 
         $this->entityManager->persist($booking);
 
         return $booking;
+    }
+
+    /**
+     * @throws RoomNotFoundException
+     */
+    private function getRoomPrice(int $roomId): RoomPriceDTO
+    {
+        $result = $this->handle(new RoomPriceQuery($roomId));
+
+        if ($result instanceof Exception) {
+            throw $result;
+        }
+
+        return $result;
     }
 }

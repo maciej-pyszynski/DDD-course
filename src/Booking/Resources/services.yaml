@@ -8,4 +8,4 @@ services:
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
             - '%bookingTax%'
-            - '@App\Room\Repository\RoomRepository'
+            - '@messenger.default_bus'

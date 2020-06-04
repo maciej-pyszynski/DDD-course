@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Room\Api\Query;
 
 final class RoomPriceQuery
@@ -15,5 +17,4 @@ final class RoomPriceQuery
     {
         return $this->roomId;
     }
-
 }

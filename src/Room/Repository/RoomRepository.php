@@ -4,6 +4,7 @@ namespace App\Room\Repository;
 
 use App\Room\Entity\Room;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,5 +18,17 @@ class RoomRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Room::class);
+    }
+
+    public function getDefaultQueryBuilder(string $alias, ?bool $availableForBooking = true): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder($alias);
+
+        if(null !== $availableForBooking) {
+            $queryBuilder->andWhere($alias.'.availableForBooking = :availableForBooking')
+                ->setParameter('availableForBooking', $availableForBooking);
+        }
+
+        return $queryBuilder;
     }
 }
