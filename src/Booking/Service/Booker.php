@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Booking\Service;
 
+use App\Booking\DTO\BookingCreated;
 use App\Booking\Entity\Booking;
+use App\Booking\Factory\BookingFactory;
+use App\Booking\Factory\RoomBookedEventFactory;
+use App\Core\Domain\Event\RoomBooked;
 use App\Room\Api\Exception\RoomNotFoundException;
 use App\Room\Api\Query\DTO\RoomPriceDTO;
 use App\Room\Api\Query\RoomPriceQuery;
@@ -20,38 +24,48 @@ class Booker
 
     private EntityManagerInterface $entityManager;
     private float $bookingTax;
+    private RoomBookedEventFactory $roomBookedEventFactory;
+    /**
+     * @var BookingFactory
+     */
+    private BookingFactory $bookingFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, float $bookingTax, MessageBusInterface $messageBus)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        float $bookingTax,
+        RoomBookedEventFactory $roomBookedEventFactory,
+        BookingFactory $bookingFactory,
+        MessageBusInterface $messageBus)
     {
         $this->entityManager = $entityManager;
         $this->bookingTax = $bookingTax;
+        $this->roomBookedEventFactory = $roomBookedEventFactory;
         $this->messageBus = $messageBus;
+        $this->bookingFactory = $bookingFactory;
     }
 
     /**
+     * Warning: Usage of this method should be wrapped in DB transaction
+     *
      * @throws RoomNotFoundException
      */
-    public function book(int $roomId, int $clientId, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
+    public function book(int $roomId, int $clientId, DateTimeImmutable $startDate, DateTimeImmutable $endDate): BookingCreated
     {
-        $startDate = $startDate->setTime(0, 0, 0);
-        $endDate = $endDate->setTime(0, 0, 0);
-
         $roomPriceDTO = $this->getRoomPrice($roomId);
-
-        $booking = new Booking();
-        $booking->setBookingDate(new DateTimeImmutable());
-        $booking->setStartDate($startDate);
-        $booking->setEndDate($endDate);
-        $booking->setClientId($clientId);
-        $booking->setRoomId($roomId);
-        $booking->setUnitPrice($roomPriceDTO->getPrice());
+        $booking = $this->bookingFactory->create($roomId, $clientId, $startDate, $endDate, $roomPriceDTO->getPrice());
 
         $this->entityManager->persist($booking);
 
-        return $booking;
+        $roomBookedEvent = $this->roomBookedEventFactory->createFromBooking($booking);
+        //TODO: use event bus
+        $this->messageBus->dispatch($roomBookedEvent);
+
+        return new BookingCreated($booking, $roomBookedEvent->getRedirectionUrl());
     }
 
     /**
+     * TODO: Create separate client Class
+     *
      * @throws RoomNotFoundException
      */
     private function getRoomPrice(int $roomId): RoomPriceDTO

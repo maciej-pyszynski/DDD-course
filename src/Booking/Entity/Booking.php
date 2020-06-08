@@ -14,10 +14,9 @@ class Booking
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var DateTimeImmutable
@@ -61,7 +60,17 @@ class Booking
      */
     private $roomId;
 
-    public function getId(): ?int
+    /**
+     * Booking constructor.
+     * @param $id
+     */
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
+
+
+    public function getId(): string
     {
         return $this->id;
     }

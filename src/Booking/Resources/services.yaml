@@ -6,6 +6,8 @@ services:
 
     App\Booking\Service\Booker:
         arguments:
-            - '@Doctrine\ORM\EntityManagerInterface'
-            - '%bookingTax%'
-            - '@messenger.default_bus'
+            $bookingTax: '%bookingTax%'
+
+    App\Booking\Factory\RoomBookedEventFactory:
+        arguments:
+            - 'http://google.com'

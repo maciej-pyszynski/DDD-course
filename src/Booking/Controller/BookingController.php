@@ -7,6 +7,8 @@ namespace App\Booking\Controller;
 use App\Booking\Controller\DTO\BookingDTO;
 use App\Booking\Service\Booker;
 use App\Room\Api\Exception\RoomNotFoundException;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,8 +35,11 @@ class BookingController extends AbstractController
     {
         //TODO: Add validation of room and client
 
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $this->get('doctrine')->getManager();
+
         try {
-            $booking = $this->booker->book(
+            $bookingDTO = $this->booker->book(
                 $bookingDTO->getRoomId(),
                 $bookingDTO->getClientId(),
                 $bookingDTO->getStartDate(),
@@ -44,12 +49,13 @@ class BookingController extends AbstractController
             return $this->json([
                 'error' => sprintf('Room %d doesn\'t exists', $bookingDTO->getRoomId())
             ], Response::HTTP_BAD_REQUEST);
-        } 
+        }
 
-        $this->get('doctrine')->getManager()->flush();
+        $entityManager->flush();
 
         return $this->json([
-            'id' => $booking->getId(),
+            'id' => $bookingDTO->getBooking()->getId(),
+            'redirection' => $bookingDTO->getRedirectUrl()
         ], Response::HTTP_CREATED);
     }
 }
