@@ -25,23 +25,23 @@ class Booker
     private EntityManagerInterface $entityManager;
     private float $bookingTax;
     private RoomBookedEventFactory $roomBookedEventFactory;
-    /**
-     * @var BookingFactory
-     */
     private BookingFactory $bookingFactory;
+    private MessageBusInterface $eventBus;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         float $bookingTax,
         RoomBookedEventFactory $roomBookedEventFactory,
         BookingFactory $bookingFactory,
-        MessageBusInterface $messageBus)
-    {
+        MessageBusInterface $queryBus,
+        MessageBusInterface $eventBus
+    ) {
         $this->entityManager = $entityManager;
         $this->bookingTax = $bookingTax;
         $this->roomBookedEventFactory = $roomBookedEventFactory;
-        $this->messageBus = $messageBus;
+        $this->messageBus = $queryBus;
         $this->bookingFactory = $bookingFactory;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -58,7 +58,7 @@ class Booker
 
         $roomBookedEvent = $this->roomBookedEventFactory->createFromBooking($booking);
         //TODO: use event bus
-        $this->messageBus->dispatch($roomBookedEvent);
+        $this->eventBus->dispatch($roomBookedEvent);
 
         return new BookingCreated($booking, $roomBookedEvent->getRedirectionUrl());
     }
