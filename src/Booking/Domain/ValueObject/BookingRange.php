@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace App\Booking\Domain\ValueObject;
 
+use DateTimeImmutable;
 
-class BookingRange
+final class BookingRange
 {
-    private \DateTimeImmutable $startDate;
-    private \DateTimeImmutable $endDate;
+    private DateTimeImmutable $startDate;
+    private DateTimeImmutable $endDate;
 
-    public function __construct(\DateTimeImmutable $startDate, \DateTimeImmutable $endDate)
+    public function __construct(DateTimeImmutable $startDate, DateTimeImmutable $endDate)
     {
         $this->validate($startDate, $endDate);
         $this->startDate = $startDate;
         $this->endDate = $endDate;
     }
 
-    public function getStartDate(): \DateTimeImmutable
+    public function getStartDate(): DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    public function getEndDate(): \DateTimeImmutable
+    public function getEndDate(): DateTimeImmutable
     {
         return $this->endDate;
     }
@@ -30,9 +31,9 @@ class BookingRange
     /**
      * @throws \InvalidArgumentException
      */
-    private function validate(\DateTimeImmutable $startDate, \DateTimeImmutable $endDate): void
+    private function validate(DateTimeImmutable $startDate, DateTimeImmutable $endDate): void
     {
-        if ($startDate > $endDate) {
+        if ($startDate >= $endDate) {
             throw new \InvalidArgumentException('The end date should be later than start date');
         }
 

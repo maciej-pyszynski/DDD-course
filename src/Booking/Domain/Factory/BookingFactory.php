@@ -9,6 +9,7 @@ use App\Booking\Domain\ValueObject\BookingRange;
 use App\Booking\Service\BookingIdGenerator;
 use App\Core\Domain\ValueObject\BookingId;
 use App\Core\Domain\ValueObject\ClientId;
+use App\Core\Domain\ValueObject\Money;
 use App\Core\Domain\ValueObject\RoomId;
 
 class BookingFactory
@@ -20,13 +21,14 @@ class BookingFactory
         $this->bookingIdGenerator = $bookingIdGenerator;
     }
 
-    public function create(RoomId $roomId, ClientId $clientId, BookingRange $bookingRange): Booking
+    public function create(RoomId $roomId, ClientId $clientId, BookingRange $bookingRange, ?Money $unitPrice): Booking
     {
         return new Booking(
             new BookingId($this->bookingIdGenerator->generate()),
             $roomId,
             $clientId,
-            $bookingRange
+            $bookingRange,
+            $unitPrice
         );
     }
 }

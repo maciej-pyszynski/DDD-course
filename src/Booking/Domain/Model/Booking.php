@@ -7,6 +7,7 @@ namespace App\Booking\Domain\Model;
 use App\Booking\Domain\ValueObject\BookingRange;
 use App\Core\Domain\ValueObject\BookingId;
 use App\Core\Domain\ValueObject\ClientId;
+use App\Core\Domain\ValueObject\Money;
 use App\Core\Domain\ValueObject\RoomId;
 
 class Booking
@@ -15,13 +16,15 @@ class Booking
     private RoomId $roomId;
     private ClientId $clientId;
     private BookingRange $bookingRange;
+    private ?Money $unitPrice;
 
-    public function __construct(BookingId $id, RoomId $roomId, ClientId $clientId, BookingRange $bookingRange)
+    public function __construct(BookingId $id, RoomId $roomId, ClientId $clientId, BookingRange $bookingRange, ?Money $unitPrice)
     {
         $this->id = $id;
         $this->roomId = $roomId;
         $this->clientId = $clientId;
         $this->bookingRange = $bookingRange;
+        $this->unitPrice = $unitPrice;
     }
 
     public function getId(): BookingId

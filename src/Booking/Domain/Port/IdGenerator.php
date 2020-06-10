@@ -7,4 +7,4 @@ namespace App\Booking\Domain\Port;
 interface IdGenerator
 {
     public function generate(): string;
-} repeat last sentence please?
+}

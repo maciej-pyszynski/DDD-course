@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Booking\Factory;
+namespace App\Booking\Domain\Factory;
 
-use App\Booking\Entity\Booking;
+use App\Booking\Domain\Model\Booking;
 use App\Core\Domain\Event\RoomBooked;
 
 class RoomBookedEventFactory
@@ -23,11 +23,11 @@ class RoomBookedEventFactory
     public function createFromBooking(Booking $booking)
     {
         return new RoomBooked(
-            $booking->getId(),
-            $booking->getRoomId(),
-            $booking->getClientId(),
-            $booking->getStartDate(),
-            $booking->getEndDate(),
+            $booking->getId()->getValue(),
+            $booking->getRoomId()->getValue(),
+            $booking->getClientId()->getValue(),
+            $booking->getBookingRange()->getStartDate(),
+            $booking->getBookingRange()->getEndDate(),
             $this->defaultRedirectUrl
         );
     }

@@ -7,7 +7,7 @@ namespace App\Booking\Service;
 use App\Booking\DTO\BookingCreated;
 use App\Booking\Entity\Booking;
 use App\Booking\Factory\BookingFactory;
-use App\Booking\Factory\RoomBookedEventFactory;
+use App\Booking\Domain\Factory\RoomBookedEventFactory;
 use App\Core\Domain\Event\RoomBooked;
 use App\Room\Api\Exception\RoomNotFoundException;
 use App\Room\Api\Query\DTO\RoomPriceDTO;
