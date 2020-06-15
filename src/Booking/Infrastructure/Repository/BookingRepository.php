@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Booking\Repository;
+namespace App\Booking\Infrastructure\Repository;
 
-use App\Booking\Entity\Booking;
+use App\Booking\Infrastructure\Entity\Booking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

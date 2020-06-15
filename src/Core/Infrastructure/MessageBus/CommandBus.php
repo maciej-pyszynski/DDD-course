@@ -18,7 +18,9 @@ class CommandBus implements CommandBusInterface
 
     public function dispatch($message): ?Response
     {
-        return $this->messageBus->dispatch($message);
+        $responses = $this->messageBus->dispatch($message);
+
+        return $responses[0] ?? null;
     }
 
 }

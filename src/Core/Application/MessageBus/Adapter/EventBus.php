@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Application\MessageBus\EventBus\Adapter;
+namespace App\Core\Application\MessageBus\Adapter;
 
+use App\Core\Application\MessageBus\Port\EventBus as EventBusAlias;
 use App\Core\Domain\EventBus\Port\EventBus as EventBusAliasInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class EventBus implements EventBusAliasInterface
 {
-    private MessageBusInterface $eventBus;
+    private EventBusAlias $eventBus;
 
-    public function __construct(MessageBusInterface $eventBus)
+    public function __construct(EventBusAlias $eventBus)
     {
         $this->eventBus = $eventBus;
     }
@@ -20,5 +20,4 @@ class EventBus implements EventBusAliasInterface
     {
         $this->eventBus->dispatch($message);
     }
-
 }

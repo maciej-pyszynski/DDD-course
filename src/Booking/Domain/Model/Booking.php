@@ -51,4 +51,9 @@ class Booking
     {
         return $this->bookingRange;
     }
+
+    public function getUnitPrice(): ?Money
+    {
+        return $this->unitPrice;
+    }
 }

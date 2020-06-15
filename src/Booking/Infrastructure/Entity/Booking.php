@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Booking\Entity;
+namespace App\Booking\Infrastructure\Entity;
 
-use App\Booking\Repository\BookingRepository;
+use App\Booking\Application\Port\Entity\Booking as BookingInterface;
+use App\Booking\Infrastructure\Repository\BookingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=BookingRepository::class)
  * @ORM\Table(name="booking_booking")
  */
-class Booking
+class Booking implements BookingInterface
 {
     /**
      * @ORM\Id()

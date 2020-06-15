@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Booking\Domain\Port;
+namespace App\Booking\Domain\Port\Repository;
 
 use App\Booking\Domain\Model\Booking;
 use App\Core\Domain\ValueObject\BookingId;

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Booking\Domain\Service;
 
 use App\Booking\Domain\Exception\BookingRangeStartDateShouldBeInTheFutureException;
-use App\Booking\Domain\Exception\RoomNotFoundException;
 use App\Booking\Domain\Factory\BookingFactory;
-use App\Booking\Domain\Port\BookingRepository;
+use App\Booking\Domain\Port\Repository\BookingRepository;
 use App\Booking\Domain\Port\RoomUnitPriceRetriever;
 use App\Booking\Domain\Service\Booker\BookingRangeValidator;
 use App\Booking\Domain\Service\Booker\RoomBookedDTO;
@@ -19,7 +18,6 @@ use App\Core\Domain\ValueObject\RoomId;
 
 class Booker
 {
-
     private float $bookingTax;
     private RoomBookedEventFactory $roomBookedEventFactory;
     private BookingFactory $bookingFactory;

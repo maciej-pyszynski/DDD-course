@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Core\Infrastructure\MessageBus;
 
 use App\Core\Application\MessageBus\Exception\MissingQueryResponseException;
+use App\Core\Application\MessageBus\Exception\QueryShouldNotBeHandledMultipleTimesException;
 use App\Core\Application\MessageBus\QueryBus as QueryBusInterface;
 use App\Core\Application\MessageBus\Response;
+use Exception;
 
 class QueryBus implements QueryBusInterface
 {
@@ -19,16 +21,27 @@ class QueryBus implements QueryBusInterface
 
     /**
      * @throws MissingQueryResponseException
+     * @throws QueryShouldNotBeHandledMultipleTimesException
+     * @throws Exception
      */
     public function dispatch($message): Response
     {
-        $response = $this->messageBus->dispatch($message);
+        $responses = $this->messageBus->dispatch($message);
 
-        if (null === $response) {
+        if ($responses instanceof Exception) {
+            throw $responses;
+        }
+
+        $responseCount = count($responses);
+        if (0 === $responseCount) {
             throw new MissingQueryResponseException();
         }
 
-        return $response;
+        if(1 < $responseCount) {
+            throw new QueryShouldNotBeHandledMultipleTimesException();
+        }
+
+        return current($responses);
     }
 
 }
