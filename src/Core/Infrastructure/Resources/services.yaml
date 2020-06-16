@@ -2,13 +2,13 @@ services:
     core.message_bus.command_bus:
         class: 'App\Core\Infrastructure\MessageBus\MessageBus'
         arguments:
-            - $messageBus: "@command.bus"
+            $messageBus: "@command.bus"
 
 
     core.message_bus.query_bus:
         class: 'App\Core\Infrastructure\MessageBus\MessageBus'
         arguments:
-            - $messageBus: "@query.bus"
+            $messageBus: "@query.bus"
 
     App\Core\Infrastructure\MessageBus\CommandBus:
         arguments:

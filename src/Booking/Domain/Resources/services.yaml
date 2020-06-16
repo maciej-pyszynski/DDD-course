@@ -1,4 +1,4 @@
 services:
     App\Booking\Domain\Factory\RoomBookedEventFactory:
         arguments:
-            - $defaultRedirectUrl: 'http://google.com'
+            $defaultRedirectUrl: 'http://google.com'

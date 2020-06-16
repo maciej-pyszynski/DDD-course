@@ -8,6 +8,7 @@ use App\Booking\Domain\Port\RoomUnitPriceRetriever as RoomUnitPriceRetrieverInte
 use App\Core\Application\MessageBus\QueryBus;
 use App\Core\Domain\ValueObject\Money;
 use App\Core\Domain\ValueObject\RoomId;
+use App\Room\Api\Query\DTO\RoomPriceDTO;
 use App\Room\Api\Query\RoomPriceQuery;
 
 class RoomUnitPriceRetriever implements RoomUnitPriceRetrieverInterface
@@ -21,9 +22,9 @@ class RoomUnitPriceRetriever implements RoomUnitPriceRetrieverInterface
 
     public function getRoomUnitPrice(RoomId $roomId): Money
     {
-        $response = $this->queryBus->dispatch(new RoomPriceQuery($roomId->getValue()));
+        /** @var RoomPriceDTO $response */
+        $response = $this->queryBus->dispatch(new RoomPriceQuery($roomId->getValue()))->getValue();
 
-        return $response->getValue();
+        return new Money($response->getPrice());
     }
-
 }

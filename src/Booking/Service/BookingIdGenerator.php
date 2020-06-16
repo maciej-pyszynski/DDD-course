@@ -10,6 +10,11 @@ class BookingIdGenerator implements IdGenerator
 {
     private UuidFactoryInterface $uuidGenerator;
 
+    public function __construct(UuidFactoryInterface $uuidGenerator)
+    {
+        $this->uuidGenerator = $uuidGenerator;
+    }
+
     public function generate(): string
     {
         return $this->getUuidGenerator()->uuid4()->toString();

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Booking\Domain\Service\Booker;
 
-
+use App\Booking\Domain\API\Command\BookingCreatedDTO;
 use App\Core\Domain\ValueObject\BookingId;
 
-class RoomBookedDTO
+class RoomBookedDTO implements BookingCreatedDTO
 {
     private BookingId $bookingId;
     private string $redirectUrl;

@@ -59,7 +59,7 @@ class Booking implements BookingInterface
      *
      * @ORM\Column(name="room_id", type="integer")
      */
-    private $roomId;
+    private ?int $roomId;
 
     /**
      * Booking constructor.

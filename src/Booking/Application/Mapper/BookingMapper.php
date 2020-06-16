@@ -12,6 +12,7 @@ class BookingMapper
     public function mapFromDomainToInfrastructure(DomainBooking $domainBooking, InfrastructureBooking $infrastructureBooking): void
     {
         $infrastructureBooking->setRoomId($domainBooking->getRoomId()->getValue());
+        $infrastructureBooking->setBookingDate($domainBooking->getBookingDate()->getValue());
         $infrastructureBooking->setClientId($domainBooking->getClientId()->getValue());
         $infrastructureBooking->setStartDate($domainBooking->getBookingRange()->getStartDate());
         $infrastructureBooking->setEndDate($domainBooking->getBookingRange()->getEndDate());

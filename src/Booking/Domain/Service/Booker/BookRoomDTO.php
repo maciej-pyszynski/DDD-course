@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Booking\Domain\API\Command;
+namespace App\Booking\Domain\Service\Booker;
 
-use App\Booking\Domain\Service\Booker\BookRoomDTOInterface;
 use App\Booking\Domain\ValueObject\BookingRange;
 use App\Core\Domain\ValueObject\ClientId;
 use App\Core\Domain\ValueObject\RoomId;
 
-final class CreateBookingCommand implements BookRoomDTOInterface
+class BookRoomDTO implements BookRoomDTOInterface
 {
     private RoomId $roomId;
     private ClientId $clientId;

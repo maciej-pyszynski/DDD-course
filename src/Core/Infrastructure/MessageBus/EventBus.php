@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Core\Infrastructure\MessageBus;
 
+use App\Core\Application\MessageBus\Port\EventBus as EventBusInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class EventBus
+class EventBus implements EventBusInterface
 {
     private MessageBusInterface $eventBus;
 
