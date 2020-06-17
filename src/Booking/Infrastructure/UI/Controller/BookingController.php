@@ -6,7 +6,6 @@ namespace App\Booking\Infrastructure\UI\Controller;
 
 use App\Booking\Application\API\Command\BookingCreatedDTO;
 use App\Booking\Application\API\Command\CreateBookingCommand;
-use App\Booking\Service\Booker;
 use App\Core\Application\MessageBus\CommandBus;
 use App\Room\Api\Exception\RoomNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Booking\Domain\Factory;
 
 use App\Booking\Domain\Model\Booking;
+use App\Booking\Domain\Port\IdGenerator;
 use App\Booking\Domain\ValueObject\BookingDate;
 use App\Booking\Domain\ValueObject\BookingRange;
-use App\Booking\Service\BookingIdGenerator;
+use App\Core\Infrastructure\UuidGenerator\Adapter\UuidGenerator;
 use App\Core\Domain\ValueObject\BookingId;
 use App\Core\Domain\ValueObject\ClientId;
 use App\Core\Domain\ValueObject\Money;
@@ -16,9 +17,9 @@ use DateTimeImmutable;
 
 class BookingFactory
 {
-    private BookingIdGenerator $bookingIdGenerator;
+    private IdGenerator $bookingIdGenerator;
 
-    public function __construct(BookingIdGenerator $bookingIdGenerator)
+    public function __construct(IdGenerator $bookingIdGenerator)
     {
         $this->bookingIdGenerator = $bookingIdGenerator;
     }
