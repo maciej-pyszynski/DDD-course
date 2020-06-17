@@ -9,6 +9,7 @@ use App\Core\Application\MessageBus\Exception\QueryShouldNotBeHandledMultipleTim
 use App\Core\Application\MessageBus\QueryBus as QueryBusInterface;
 use App\Core\Application\MessageBus\Response;
 use Exception;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 
 class QueryBus implements QueryBusInterface
 {
@@ -26,10 +27,10 @@ class QueryBus implements QueryBusInterface
      */
     public function dispatch($message): Response
     {
-        $responses = $this->messageBus->dispatch($message);
-
-        if ($responses instanceof Exception) {
-            throw $responses;
+        try {
+            $responses = $this->messageBus->dispatch($message);
+        } catch (HandlerFailedException $exception) {
+            throw current($exception->getNestedExceptions());
         }
 
         $responseCount = count($responses);

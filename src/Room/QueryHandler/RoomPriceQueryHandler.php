@@ -35,7 +35,7 @@ class RoomPriceQueryHandler implements MessageHandlerInterface
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
-            return new RoomNotFoundException('', 0, $e);
+            throw new RoomNotFoundException('', 0, $e);
         }
 
         return new RoomPriceDTO((int)$price);

@@ -15,7 +15,7 @@ fos_rest:
 #        messages:
 #            App\Exception\MyException: Forbidden area.
     exception:
-        enabled: true
+        enabled: false
     format_listener:
         enabled: true
         rules:

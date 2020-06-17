@@ -5,6 +5,7 @@
         "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "friendsofsymfony/rest-bundle": "3.0.0-beta3",
         "ramsey/uuid": "^4.0",
         "sensio/framework-extra-bundle": "^5.5",
@@ -17,6 +18,7 @@
         "symfony/options-resolver": "5.0.*",
         "symfony/orm-pack": "^1.0",
         "symfony/serializer-pack": "^1.0",
+        "symfony/translation": "5.0.*",
         "symfony/validator": "5.0.*",
         "symfony/yaml": "5.0.*"
     },

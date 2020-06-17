@@ -7,12 +7,14 @@ namespace App\Booking\Infrastructure\UI\Controller;
 use App\Booking\Application\API\Command\BookingCreatedDTO;
 use App\Booking\Application\API\Command\CreateBookingCommand;
 use App\Core\Application\MessageBus\CommandBus;
+use App\Core\Infrastructure\Exception\ValidationException;
 use App\Room\Api\Exception\RoomNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BookingController extends AbstractController
@@ -42,9 +44,20 @@ class BookingController extends AbstractController
         try {
             /** @var BookingCreatedDTO $bookingCreatedDTO */
             $bookingCreatedDTO = $this->commandBus->dispatch($createBookingCommand)->getValue();
-        } catch (RoomNotFoundException $e) {
+        } catch (HandlerFailedException $exception) {
+            $exception = current($exception->getNestedExceptions());
+
+            $error = [
+                'message' => $exception->getMessage()
+            ];
+
+            $property = $exception->getProperty();
+
+            if(null !== $property) {
+                $error['property'] = $property;
+            }
             return $this->json([
-                'error' => sprintf('Room %d doesn\'t exists', $createBookingCommand->getRoomId()),
+                'errors' => [$error]
             ], Response::HTTP_BAD_REQUEST);
         }
 
