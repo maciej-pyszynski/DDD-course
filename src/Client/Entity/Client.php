@@ -16,22 +16,33 @@ class Client
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $address;
+    private ?string $address;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $phone;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $email;
+
 
     public function getId(): ?int
     {
